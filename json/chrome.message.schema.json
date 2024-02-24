@@ -1,0 +1,102 @@
+{
+	"$id": "https://developer.chrome.com/docs/extensions/how-to/ui/localization-message-formats",
+	"type": "object",
+	"additionalProperties": {
+		"title": "The name of the message.",
+		"description": "the same `name` that you see in `__MSG_&lt;name&gt;__` or `getMessage(\"&lt;name&gt;\")`.\nThe name is a case-insensitive key that lets you retrieve the localized message text. The name can include the following characters:\tA-Z\ta-z\t0-9\t_(underscore)\t@\nNote: Don't define names that begin with \"@@\". Those names are reserved for predefined messages.",
+		"type": "object",
+		"properties": {
+			"message": {
+				"description": "The translated message, in the form of a string that can contain placeholders. Use `$&lt;placeholder_name&gt;$` (case insensitive) to refer to a particular placeholder.\nFor example, you can refer to a placeholder named \"our_site\" as `$our_site$`, `$OUR_SITE$`, or `$oUR_sITe$`.\nTo put a dollar sign (`$`) into the string, use `$$`.",
+				"type": "string",
+				"examples": [
+					"$<placeholder_name>$",
+					"$1"
+				]
+			},
+			"description": {
+				"description": "A description of the message, intended to give context or details to help the translator make the best possible translation.",
+				"type": "string"
+			},
+			"placeholders": {
+				"description": "Defines one or more substrings to be used within the message.",
+				"type": "object",
+				"additionalProperties": {
+					"title": "The name of the placeholder.",
+					"description": "A placeholder's name is case-insensitive and can contain the same characters as a message name.",
+					"type": "object",
+					"properties": {
+						"content": {
+							"type": "string",
+							"description": "The \"content\" item's value is a string that can refer to substitution strings, which are specified using the `i18n.getMessage` method's substitutions parameter.",
+							"examples": [
+								"$1"
+							]
+						},
+						"example": {
+							"type": "string",
+							"description": "The \"example\" item helps translators by showing how the content appears to the end user."
+						}
+					},
+					"required": [
+						"content"
+					],
+					"default": {
+						"content": ""
+					},
+					"additionalProperties": false
+				}
+			}
+		},
+		"required": [
+			"message"
+		],
+		"default": {
+			"message": ""
+		},
+		"additionalProperties": false
+	},
+	"examples": [
+		{
+			"name": {
+				"message": "Message text, with optional placeholders.",
+				"description": "Translator-aimed description of the message.",
+				"placeholders": {
+					"placeholder_name": {
+						"content": "A string to be placed within the message.",
+						"example": "Translator-aimed example of the placeholder string."
+					}
+				}
+			}
+		},
+		{
+			"prompt_for_name": {
+				"message": "What's your name?",
+				"description": "Ask for the user's name"
+			},
+			"hello": {
+				"message": "Hello, $USER$",
+				"description": "Greet the user",
+				"placeholders": {
+					"user": {
+						"content": "$1",
+						"example": "Cira"
+					}
+				}
+			},
+			"bye": {
+				"message": "Goodbye, $USER$. Come back to $OUR_SITE$ soon!",
+				"description": "Say goodbye to the user",
+				"placeholders": {
+					"our_site": {
+						"content": "Example.com"
+					},
+					"user": {
+						"content": "$1",
+						"example": "Cira"
+					}
+				}
+			}
+		}
+	]
+}
