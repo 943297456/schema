@@ -1,60 +1,86 @@
 {
-	"$id": "https://developer.chrome.com/docs/extensions/how-to/ui/localization-message-formats",
+	"$id": "https://developer.chrome.google.cn/docs/extensions/how-to/ui/localization-message-formats",
+	"title": "本地化消息格式",
+	"description": "每个经过国际化扩展程序都至少有一个名为 messages.json 的文件，用于提供特定于语言区域的字符串。",
+	"markdownDescription": "每个经过国际化扩展程序都至少有一个名为[`messages.json`](https://developer.chrome.google.cn/docs/extensions/how-to/ui/localization-message-formats)的文件，用于提供特定于语言区域的字符串。",
 	"type": "object",
+	"propertyNames": {
+		"$ref": "#/definitions/name"
+	},
 	"additionalProperties": {
-		"title": "The name of the message.",
-		"description": "the same `name` that you see in `__MSG_&lt;name&gt;__` or `getMessage(\"&lt;name&gt;\")`.\nThe name is a case-insensitive key that lets you retrieve the localized message text. The name can include the following characters:\tA-Z\ta-z\t0-9\t_(underscore)\t@\nNote: Don't define names that begin with \"@@\". Those names are reserved for predefined messages.",
+		"title": "消息名称",
+		"description": "在 __MSG_name__ 或 getMessage('name') 中的名称(name)。",
+		"markdownDescription": "在`__MSG_name__`或`getMessage('name')`中的名称(`name`)。",
 		"type": "object",
 		"properties": {
 			"message": {
-				"description": "The translated message, in the form of a string that can contain placeholders. Use `$&lt;placeholder_name&gt;$` (case insensitive) to refer to a particular placeholder.\nFor example, you can refer to a placeholder named \"our_site\" as `$our_site$`, `$OUR_SITE$`, or `$oUR_sITe$`.\nTo put a dollar sign (`$`) into the string, use `$$`.",
+				"title": "消息",
+				"description": "已翻译的消息，采用字符串形式，其中可以包含占位符。使用 $placeholder_name$ （不区分大小写），用于表示特定占位符。\n如需在字符串中添加美元符号($)，请使用 $$ 。",
+				"markdownDescription": "已翻译的消息，采用字符串形式，其中可以包含占位符。使用`$placeholder_name$`（不区分大小写），用于表示特定占位符。\n如需在字符串中添加美元符号(`$`)，请使用`$$`。",
 				"type": "string",
 				"examples": [
-					"$<placeholder_name>$",
-					"$1"
+					"Hello",
+					"Hello, $USER$",
+					"Hello, $1"
 				]
 			},
 			"description": {
-				"description": "A description of the message, intended to give context or details to help the translator make the best possible translation.",
+				"title": "说明",
+				"description": "旨在提供背景信息或详细信息，以帮助译者尽可能提供最准确的译文。",
 				"type": "string"
 			},
 			"placeholders": {
-				"description": "Defines one or more substrings to be used within the message.",
+				"title": "占位符",
+				"description": "定义要在消息中使用的一个或多个子字符串。",
 				"type": "object",
+				"propertyNames": {
+					"$ref": "#/definitions/name"
+				},
 				"additionalProperties": {
-					"title": "The name of the placeholder.",
-					"description": "A placeholder's name is case-insensitive and can contain the same characters as a message name.",
+					"title": "占位符名称",
+					"description": "占位符的名称不区分大小写，且包含与消息名称相同的字符。",
 					"type": "object",
 					"properties": {
 						"content": {
+							"title": "内容",
+							"description": "引用指定的替换字符串。使用 i18n.getMessage 方法的 substitutions 参数。",
+							"markdownDescription": "引用指定的替换字符串。使用`i18n.getMessage`方法的`substitutions`参数。",
 							"type": "string",
-							"description": "The \"content\" item's value is a string that can refer to substitution strings, which are specified using the `i18n.getMessage` method's substitutions parameter.",
 							"examples": [
+								"Example.com",
 								"$1"
 							]
 						},
 						"example": {
-							"type": "string",
-							"description": "The \"example\" item helps translators by showing how the content appears to the end user."
+							"title": "示例",
+							"description": "显示内容在最终用户眼中的呈现方式，从而帮助译者。",
+							"type": "string"
 						}
 					},
 					"required": [
 						"content"
 					],
+					"additionalProperties": false,
 					"default": {
-						"content": ""
-					},
-					"additionalProperties": false
+						"content": "$1"
+					}
 				}
 			}
 		},
 		"required": [
 			"message"
 		],
+		"additionalProperties": false,
 		"default": {
 			"message": ""
-		},
-		"additionalProperties": false
+		}
+	},
+	"definitions": {
+		"name": {
+			"type": "string",
+			"pattern": "^[\\w@]+$",
+			"patternErrorMessage": "只能使用 [a-z], [A-Z], [0-9] , \"_\" , \"@\"。"
+		}
 	},
 	"examples": [
 		{
